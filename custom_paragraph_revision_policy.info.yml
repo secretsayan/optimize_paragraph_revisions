@@ -1,0 +1,7 @@
+type: module
+core_version_requirement: ^9 || ^10
+name: 'Custom Paragraph Revision Policy'
+description: 'Customises the revision creation policy of paragraphs.'
+
+dependencies:
+  - entity_reference_revisions:entity_reference_revisions

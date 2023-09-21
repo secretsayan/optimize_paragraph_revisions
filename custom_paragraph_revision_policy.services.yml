@@ -1,0 +1,5 @@
+services:
+  custom_paragraph_revision_policy.ParagraphPolicyOverride:
+    class: Drupal\custom_paragraph_revision_policy\ParagraphPolicyOverride
+    tags:
+      - { name: entity_reference_revisions_revision_creation_policy, priority: -1000 }
