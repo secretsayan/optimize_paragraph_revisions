@@ -1,5 +1,9 @@
 services:
-  custom_paragraph_revision_policy.ParagraphPolicyOverride:
-    class: Drupal\custom_paragraph_revision_policy\ParagraphPolicyOverride
+  custom_paragraph_revision_policy.CompositeEntityReferencedByNewHostRevisionViaUntranslatableReferenceNeedingSave:
+    class: Drupal\custom_paragraph_revision_policy\CompositeEntityReferencedByNewHostRevisionViaUntranslatableReferenceNeedingSave
+    tags:
+      - { name: entity_reference_revisions_revision_creation_policy, priority: -1000 }
+  custom_paragraph_revision_policy.CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSave:
+    class: Drupal\custom_paragraph_revision_policy\CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSave
     tags:
       - { name: entity_reference_revisions_revision_creation_policy, priority: -1000 }

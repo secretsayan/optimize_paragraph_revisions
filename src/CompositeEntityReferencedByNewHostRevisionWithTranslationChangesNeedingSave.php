@@ -5,12 +5,11 @@ namespace Drupal\custom_paragraph_revision_policy;
 use Drupal\Core\Entity\TranslatableRevisionableInterface;
 use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\entity_reference_revisions\RevisionCreationPolicy\RevisionCreationPolicyInterface;
-
-class ParagraphPolicyOverride implements RevisionCreationPolicyInterface {
+use Drupal\entity_reference_revisions\RevisionCreationPolicy\CompositeEntityReferencedByNewHostRevisionWithTranslationChanges;
+class CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSave implements RevisionCreationPolicyInterface {
 
   public function initializer(RevisionCreationPolicyInterface $chain) {
-    $chain->removeAllPolicies();
-    $chain->addPolicy($this);
+    $chain->swapPolicies(new CompositeEntityReferencedByNewHostRevisionWithTranslationChanges(), $this);
     return $chain;
   }
 
