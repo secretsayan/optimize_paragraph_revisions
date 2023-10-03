@@ -5,3 +5,5 @@ description: 'Customises the revision creation policy of paragraphs.'
 
 dependencies:
   - entity_reference_revisions:entity_reference_revisions
+  - entity_composite_relationship_test:entity_composite_relationship_test
+  - paragraphs:paragraphs
