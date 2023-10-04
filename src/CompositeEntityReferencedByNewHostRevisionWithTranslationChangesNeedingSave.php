@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\custom_paragraph_revision_policy;
+namespace Drupal\optimize_paragraph_revisions;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\TranslatableRevisionableInterface;
@@ -21,6 +21,7 @@ class CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSav
 
   public function initializer(RevisionCreationPolicyInterface $chain) {
     $chain->addPolicy($this);
+    \Drupal::logger('mymodule')->info('here');
     return $chain;
   }
 

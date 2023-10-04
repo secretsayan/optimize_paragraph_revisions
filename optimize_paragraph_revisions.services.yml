@@ -1,0 +1,10 @@
+services:
+  optimize_paragraph_revisions.CompositeEntityReferencedByNewHostRevisionViaUntranslatableReferenceNeedingSave:
+    class: Drupal\optimize_paragraph_revisions\CompositeEntityReferencedByNewHostRevisionViaUntranslatableReferenceNeedingSave
+    decorates: entity_reference_revisions.CompositeEntityReferencedByNewHostRevisionViaUntranslatableReference
+    arguments: ['@.inner']
+
+  optimize_paragraph_revisions.CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSave:
+    class: Drupal\optimize_paragraph_revisions\CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSave
+    decorates: entity_reference_revisions.CompositeEntityReferencedByNewHostRevisionWithTranslationChanges
+    arguments: ['@.inner']

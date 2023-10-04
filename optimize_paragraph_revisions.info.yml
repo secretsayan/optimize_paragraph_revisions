@@ -1,0 +1,8 @@
+type: module
+core_version_requirement: ^9 || ^10
+name: 'Optimize Paragraph Revisions'
+description: 'Optimizes the revision creation policy of paragraphs.'
+
+dependencies:
+  - entity_reference_revisions:entity_reference_revisions
+  - paragraphs:paragraphs
