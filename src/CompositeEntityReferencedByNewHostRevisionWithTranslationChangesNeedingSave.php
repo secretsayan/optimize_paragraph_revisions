@@ -21,7 +21,6 @@ class CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSav
 
   public function initializer(RevisionCreationPolicyInterface $chain) {
     $chain->addPolicy($this);
-    \Drupal::logger('mymodule')->info('here');
     return $chain;
   }
 

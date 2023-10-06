@@ -8,3 +8,13 @@ services:
     class: Drupal\optimize_paragraph_revisions\CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSave
     decorates: entity_reference_revisions.CompositeEntityReferencedByNewHostRevisionWithTranslationChanges
     arguments: ['@.inner']
+
+  optimize_paragraph_revisions.CompositeEntityReferencedByExistingHostRevisionViaUntranslatableReferenceNeedingSave:
+    class: Drupal\optimize_paragraph_revisions\CompositeEntityReferencedByExistingHostRevisionViaUntranslatableReferenceNeedingSave
+    tags:
+      - { name: entity_reference_revisions_revision_creation_policy, priority: -1000 }
+
+  optimize_paragraph_revisions.CompositeEntityReferencedByExistingHostRevisionWithTranslationChangesNeedingSave:
+    class: Drupal\optimize_paragraph_revisions\CompositeEntityReferencedByExistingHostRevisionWithTranslationChangesNeedingSave
+    tags:
+      - { name: entity_reference_revisions_revision_creation_policy, priority: -1000 }
