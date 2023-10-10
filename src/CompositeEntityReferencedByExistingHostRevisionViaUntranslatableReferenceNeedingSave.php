@@ -39,6 +39,7 @@ class CompositeEntityReferencedByExistingHostRevisionViaUntranslatableReferenceN
           // If we need to save the entity
           $item->entity->needsSave()
         ) {
+          \Drupal::logger("info")->info("untranslatable");
           return TRUE;
         }
 //    if (
