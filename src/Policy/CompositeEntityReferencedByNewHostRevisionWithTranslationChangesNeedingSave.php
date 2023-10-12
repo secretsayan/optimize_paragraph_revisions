@@ -1,22 +1,20 @@
 <?php
 
-namespace Drupal\optimize_paragraph_revisions;
+namespace Drupal\optimize_paragraph_revisions\Policy;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\TranslatableRevisionableInterface;
 use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\entity_reference_revisions\RevisionCreationPolicy\RevisionCreationPolicyInterface;
-use Drupal\entity_reference_revisions\RevisionCreationPolicy\CompositeEntityReferencedByNewHostRevisionViaUntranslatableReference;
+use Drupal\entity_reference_revisions\RevisionCreationPolicy\CompositeEntityReferencedByNewHostRevisionWithTranslationChanges;
 
-class CompositeEntityReferencedByNewHostRevisionViaUntranslatableReferenceNeedingSave implements RevisionCreationPolicyInterface {
+class CompositeEntityReferencedByNewHostRevisionWithTranslationChangesNeedingSave implements RevisionCreationPolicyInterface {
 
   use DependencySerializationTrait;
-
   /**
    * @var \Drupal\entity_reference_revisions\RevisionCreationPolicy\RevisionCreationPolicyInterface
    */
   private RevisionCreationPolicyInterface $inner;
-
   public function __construct(RevisionCreationPolicyInterface $inner) {
     $this->inner = $inner;
   }
@@ -36,14 +34,11 @@ class CompositeEntityReferencedByNewHostRevisionViaUntranslatableReferenceNeedin
     //      // Referenced by a new host revision
     //      !$host->isNew() && $host->isNewRevision() &&
     //
-    //      // Via an untranslatable reference
-    //      !$item->getFieldDefinition()->isTranslatable() &&
+    //      // With translation changes
+    //      $host instanceof TranslatableRevisionableInterface && $host->hasTranslationChanges() &&
     //
     //      // If we need to save the entity
-    //      $item->entity->needsSave()
-    //    ) {
-    //      return TRUE;
-    //    }
+    //      $item->entity->needsSave()) {
     if (
       // Previous Policy is TRUE
       $this->inner->shouldCreateNewRevision($item) &&
