@@ -11,10 +11,15 @@ services:
 
   optimize_paragraph_revisions.CompositeEntityReferencedByExistingHostRevisionViaUntranslatableReferenceNeedingSave:
     class: Drupal\optimize_paragraph_revisions\Policy\CompositeEntityReferencedByExistingHostRevisionViaUntranslatableReferenceNeedingSave
+    arguments: ['@optimize_paragraph_revisions.ExistingRevisionPolicyHelper']
     tags:
       - { name: entity_reference_revisions_revision_creation_policy, priority: -1000 }
 
   optimize_paragraph_revisions.CompositeEntityReferencedByExistingHostRevisionWithTranslationChangesNeedingSave:
     class: Drupal\optimize_paragraph_revisions\Policy\CompositeEntityReferencedByExistingHostRevisionWithTranslationChangesNeedingSave
+    arguments: ['@optimize_paragraph_revisions.ExistingRevisionPolicyHelper']
     tags:
       - { name: entity_reference_revisions_revision_creation_policy, priority: -1000 }
+
+  optimize_paragraph_revisions.ExistingRevisionPolicyHelper:
+    class: Drupal\optimize_paragraph_revisions\Helper\ExistingRevisionPolicyHelper
