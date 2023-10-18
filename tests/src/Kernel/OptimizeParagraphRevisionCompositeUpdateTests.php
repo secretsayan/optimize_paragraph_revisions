@@ -363,6 +363,7 @@ class OptimizeParagraphRevisionCompositeUpdateTests extends EntityKernelTestBase
    //Editing paragraph1 again with host node set to SetNewRevision to False.
    $paragraph1_revision2 = Paragraph::load($paragraph1->id());
    $paragraph1_revision2->set('text', 'Changing text of Paragraph 1 again ');
+   // Mimicing paragraph widget
    $paragraph1_revision2->setNeedsSave(TRUE);
    /** @var \Drupal\node\Entity\Node $node_revision2 */
    $node_revision2 = Node::load($node->id());
@@ -373,6 +374,7 @@ class OptimizeParagraphRevisionCompositeUpdateTests extends EntityKernelTestBase
    // Edit a paragraph
    $paragraph2_revision1 = Paragraph::load($paragraph2->id());
    $paragraph2_revision1->set('text', 'Changing text of Paragraph 2');
+   // Mimicing paragraph widget
    $paragraph2_revision1->setNeedsSave(TRUE);
 
    /** @var \Drupal\node\Entity\Node $node_revision1 */
