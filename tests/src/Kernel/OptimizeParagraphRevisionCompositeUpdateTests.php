@@ -479,7 +479,7 @@ class OptimizeParagraphRevisionCompositeUpdateTests extends EntityKernelTestBase
     ]);
     $paragraph3->save();
 
-    // Create a node with two paragraphs.
+    // Create a node with three paragraphs.
     $node = Node::create([
       'title' => $this->randomMachineName(),
       'type' => 'article',
