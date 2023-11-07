@@ -241,7 +241,6 @@ class OptimizeParagraphRevisionCompositeUpdateTestsWithContentModeration extends
     ]);
     $node_revision1->save();
 
-
     // Assert new paragraph revisions are created for paragraph 1 only.
     $paragraph1_revisions_count = \Drupal::entityQuery('paragraph')
       ->condition('uuid', $paragraph1->uuid())
@@ -367,7 +366,6 @@ class OptimizeParagraphRevisionCompositeUpdateTestsWithContentModeration extends
       ->accessCheck(TRUE)
       ->execute();
     $this->assertEquals(2, $paragraph1_revisions_count);
-
 
     //Editing paragraph1 again with host node set to SetNewRevision to False.
     $paragraph1_revision2 = Paragraph::load($paragraph1->id());
@@ -546,6 +544,6 @@ class OptimizeParagraphRevisionCompositeUpdateTestsWithContentModeration extends
       ->accessCheck(TRUE)
       ->execute();
     $this->assertEquals(1, $paragraph3_revisions_count);
-
   }
+
 }

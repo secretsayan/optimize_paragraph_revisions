@@ -27,23 +27,6 @@ class CompositeEntityReferencedByNewHostRevisionViaUntranslatableReferenceNeedin
   }
 
   public function shouldCreateNewRevision(EntityReferenceRevisionsItem $item) {
-    //    $host = $item->getEntity();
-    //    if (
-    //      // A composite entity
-    //      $item->entity && $item->entity->getEntityType()
-    //        ->get('entity_revision_parent_id_field') &&
-    //
-    //      // Referenced by a new host revision
-    //      !$host->isNew() && $host->isNewRevision() &&
-    //
-    //      // Via an untranslatable reference
-    //      !$item->getFieldDefinition()->isTranslatable() &&
-    //
-    //      // If we need to save the entity
-    //      $item->entity->needsSave()
-    //    ) {
-    //      return TRUE;
-    //    }
     if (
       // Previous Policy is TRUE
       $this->inner->shouldCreateNewRevision($item) &&

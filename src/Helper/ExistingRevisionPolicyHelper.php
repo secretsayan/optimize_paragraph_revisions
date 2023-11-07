@@ -14,17 +14,6 @@ class ExistingRevisionPolicyHelper {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function isItemReferencedByOtherHostRevisions(EntityReferenceRevisionsItem $item): bool {
-//    // Testing entity_revision_parent_id_field
-//    $paragraph3_revisions_count = \Drupal::entityQuery('node')
-//      ->condition('revision_id', $item->entity->getRevisionId())
-//      ->fields('n', [])
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//
-//    \Drupal::logger("db")->info($item->entity->getRevisionId() . " --- " . $paragraph3_revisions_count);
-
     $host_revision_ids = $this->getPreviousRevisionsOfHost($item);
     // Get host entity
     $host_entity = $item->getEntity();
@@ -47,7 +36,6 @@ class ExistingRevisionPolicyHelper {
       }
     }
     return FALSE;
-
   }
 
   /**

@@ -41,7 +41,7 @@ class OptimizeParagraphRevisionCompositeTranslationUpdateTests extends EntityKer
     'paragraphs',
     'file',
     'language',
-    'content_translation'
+    'content_translation',
   ];
 
   /**
@@ -66,7 +66,7 @@ class OptimizeParagraphRevisionCompositeTranslationUpdateTests extends EntityKer
     parent::setUp();
 
     ConfigurableLanguage::createFromLangcode('de')->save();
-//    ConfigurableLanguage::createFromLangcode('fr')->save();
+    //    ConfigurableLanguage::createFromLangcode('fr')->save();
 
     // Create paragraphs and article content types.
     $values = ['type' => 'article', 'name' => 'Article'];
@@ -126,29 +126,27 @@ class OptimizeParagraphRevisionCompositeTranslationUpdateTests extends EntityKer
       ->setDefaultLangcode('en')
       ->save();
 
-//    ContentLanguageSettings::load($field->id())
-//      ->setLanguageAlterable(FALSE)
-//      ->setDefaultLangcode('en')
-//      ->save();
+    //    ContentLanguageSettings::load($field->id())
+    //      ->setLanguageAlterable(FALSE)
+    //      ->setDefaultLangcode('en')
+    //      ->save();
     ContentLanguageSettings::loadByEntityTypeBundle('paragraphs_type', 'test_text')
       ->setLanguageAlterable(TRUE)
       ->setDefaultLangcode('en')
       ->save();
 
-//    \Drupal::service('content_translation.manager')->setEnabled('node', 'article', TRUE);
-//    \Drupal::service('content_translation.manager')->setEnabled('paragraphs_type', 'test_text', TRUE);
-//    \Drupal::service('content_translation.manager')->setBundleTranslationSettings('node', 'article', [
-//      'untranslatable_fields_hide' => TRUE,
-//    ]);
-//    \Drupal::service('entity_type.bundle.info')->clearCachedBundles();
+    //    \Drupal::service('content_translation.manager')->setEnabled('node', 'article', TRUE);
+    //    \Drupal::service('content_translation.manager')->setEnabled('paragraphs_type', 'test_text', TRUE);
+    //    \Drupal::service('content_translation.manager')->setBundleTranslationSettings('node', 'article', [
+    //      'untranslatable_fields_hide' => TRUE,
+    //    ]);
+    //    \Drupal::service('entity_type.bundle.info')->clearCachedBundles();
   }
 
   /**
    * Tests no new paragraph revisions are created when Parent has changes.
    */
   public function testNoRevisionsCreatedForUnChangedParagraphsOnHostTranslationChanges(): void {
-
-
     // Create a paragraph.
     $paragraph1 = Paragraph::create([
       'title' => 'Paragraph',
@@ -175,7 +173,6 @@ class OptimizeParagraphRevisionCompositeTranslationUpdateTests extends EntityKer
       ],
     ]);
     $node->save();
-
 
     // Edit host node with paragraphs.
     $paragraph1_revision1 = Paragraph::load($paragraph1->id());
@@ -214,12 +211,9 @@ class OptimizeParagraphRevisionCompositeTranslationUpdateTests extends EntityKer
       ->accessCheck(TRUE)
       ->execute();
     $this->assertEquals(1, $paragraph2_revisions_count);
-
   }
 
   public function testNewRevisionsCreatedForChangedParagraphsOnly(): void {
-
-
     // Create a paragraph.
     $paragraph1 = Paragraph::create([
       'title' => 'Paragraph',
@@ -266,12 +260,11 @@ class OptimizeParagraphRevisionCompositeTranslationUpdateTests extends EntityKer
     $node_revision1_de->set('title', 'Translation of new node #1 DE');
 
     $node_revision1_de->set('node_paragraph_field', [
-        $paragraph1_revision1_de,
-        $paragraph2_revision1_de,
+      $paragraph1_revision1_de,
+      $paragraph2_revision1_de,
     ]);
     $node_revision1_de->setNewRevision(TRUE);
     $node_revision1_de->save();
-
 
     // Assert new paragraph revisions are created for paragraph 1 only.
     $paragraph1_revisions_count = \Drupal::entityQuery('paragraph')
@@ -419,259 +412,12 @@ class OptimizeParagraphRevisionCompositeTranslationUpdateTests extends EntityKer
 
     //
     $paragraph2_revision = Paragraph::load($paragraph2->id());
-    $this->assertEquals('Changing text of Paragraph 2 to DE #2', $paragraph2_revision->getTranslation('de')->get('text')->getString());
-    $this->assertEquals('Changing text of Paragraph 2 to en #2', $paragraph2_revision->getTranslation('en')->get('text')->getString());
-
-
-
-
-
-
-
-
+    $this->assertEquals('Changing text of Paragraph 2 to DE #2', $paragraph2_revision->getTranslation('de')
+      ->get('text')
+      ->getString());
+    $this->assertEquals('Changing text of Paragraph 2 to en #2', $paragraph2_revision->getTranslation('en')
+      ->get('text')
+      ->getString());
   }
-
-//  public function testRevisionCreationWhenSetNewRevisionIsFalseInHostAndChangedParagraphIsReferencedBySingleOrMultipleHostRevision(): void {
-//
-//    // Create a paragraph.
-//    $paragraph1 = Paragraph::create([
-//      'title' => 'Paragraph',
-//      'type' => 'test_text',
-//      'text' => 'Test 1',
-//    ]);
-//    $paragraph1->save();
-//    // Create another paragraph.
-//    $paragraph2 = Paragraph::create([
-//      'title' => 'Paragraph',
-//      'type' => 'test_text',
-//      'text' => 'Test 1',
-//    ]);
-//    $paragraph2->save();
-//    // Create another paragraph.
-//    $paragraph3 = Paragraph::create([
-//      'title' => 'Paragraph',
-//      'type' => 'test_text',
-//      'text' => 'Test 1',
-//    ]);
-//    $paragraph3->save();
-//
-//    // Create a node with two paragraphs.
-//    $node = Node::create([
-//      'title' => $this->randomMachineName(),
-//      'type' => 'article',
-//      'node_paragraph_field' => [
-//        $paragraph1,
-//        $paragraph2,
-//        $paragraph3,
-//      ],
-//    ]);
-//    $node->save();
-//
-//    // Edit paragraph1
-//    $paragraph1_revision1_de = Paragraph::load($paragraph1->id());
-//    $paragraph1_revision1_de->addTranslation('de');
-//    $paragraph1_revision1_de->getTranslation('de')->set('text', 'Changing text of Paragraph 1 #1 DE');
-//    $paragraph1_revision1_de->setNeedsSave(TRUE);
-//
-//    /** @var \Drupal\node\Entity\Node $node_revision1_de */
-//    $node_revision1_de = Node::load($node->id());
-//    $node_revision1_de->addTranslation('de', ['title' => 'Translation of new node #1 DE'] + $node->toArray());
-//    $node_revision1_de->setNewRevision(TRUE);
-//    $node_revision1_de->save();
-//    // Assert new node revision is created.
-//    $this->assertNotEquals($node->getRevisionId(), $node_revision1_de->getRevisionId());
-//
-//    // Assert new revisions are created for paragraph1.
-//    $paragraph1_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph1->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(2, $paragraph1_revisions_count);
-//
-//
-//    //Editing paragraph1 again with host node set to SetNewRevision to False.
-//    $paragraph1_revision2_de = Paragraph::load($paragraph1->id());
-//    $paragraph1_revision2_de->getTranslation('de')->set('text', 'Changing text of Paragraph 1 #2 DE');
-//    // Mimic paragraph widget behavior
-//    $paragraph1_revision2_de->setNeedsSave(TRUE);
-//    /** @var \Drupal\node\Entity\Node $node_revision2 */
-//    $node_revision2_de = Node::load($node->id());
-//    $node_revision2_de->addTranslation('de', ['title' => 'Translation of new node #2 DE'] + $node->toArray());
-//    $node_revision2_de->setNewRevision(FALSE);
-//    $node_revision2_de->save();
-//
-//    // Assert no new node revision is created.
-//    $this->assertEquals($node_revision1_de->getRevisionId(), $node_revision2_de->getRevisionId());
-//
-//    // Assert no new paragraph revisions are created.
-//    $paragraph1_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph1->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(2, $paragraph1_revisions_count);
-//
-//    // Edit the other paragraph.
-//    $paragraph2_revision1_de = Paragraph::load($paragraph2->id());
-//    $paragraph2_revision1_de->addTranslation('de');
-//    $paragraph2_revision1_de->getTranslation('de')->set('text', 'Changing text of Paragraph 2 #1 DE');
-//
-//    // Mimic paragraph widget behavior.
-//    $paragraph2_revision1_de->setNeedsSave(TRUE);
-//
-//    /** @var \Drupal\node\Entity\Node $node_revision1 */
-//    $node_revision3_de = Node::load($node->id());
-//    $node_revision3_de->addTranslation('de', ['title' => 'Translation of new node #3 DE'] + $node->toArray());
-//    $node_revision3_de->setNewRevision(FALSE);
-//    $node_revision3_de->save();
-//
-//    // Assert no new node revisions are created.
-//    $this->assertEquals($node_revision1_de->getRevisionId(), $node_revision2_de->getRevisionId());
-//    $this->assertEquals($node_revision1_de->getRevisionId(), $node_revision3_de->getRevisionId());
-//
-//    // Assert no new paragraph revisions are created for paragraph1.
-//    $paragraph1_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph1->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(2, $paragraph1_revisions_count);
-//
-//    // Assert new revision is created for paragraph2.
-//    $paragraph2_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph2->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(2, $paragraph2_revisions_count);
-//
-//    // Assert no new paragraph revisions are created for paragraph3.
-//    $paragraph3_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph3->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(1, $paragraph3_revisions_count);
-//  }
-
-//  public function testNoRevisionsCreatedWhenSetNewRevisionIsFalseInHostAndParagraphsDoNotChange(): void {
-//    // Create the paragraph type.
-//    $paragraph_type = ParagraphsType::create([
-//      'label' => 'test_text',
-//      'id' => 'test_text',
-//    ]);
-//    $paragraph_type->save();
-//
-//    // Add a paragraphs field.
-//    $field_storage = FieldStorageConfig::create([
-//      'field_name' => 'text',
-//      'entity_type' => 'paragraph',
-//      'type' => 'string',
-//      'cardinality' => '-1',
-//      'settings' => [],
-//    ]);
-//    $field_storage->save();
-//    $field = FieldConfig::create([
-//      'field_storage' => $field_storage,
-//      'bundle' => 'test_text',
-//      'settings' => [
-//        'handler' => 'default:paragraph',
-//        'handler_settings' => ['target_bundles' => NULL],
-//      ],
-//    ]);
-//    $field->save();
-//
-//    // Add a paragraph field to the article.
-//    $field_storage = FieldStorageConfig::create([
-//      'field_name' => 'node_paragraph_field',
-//      'entity_type' => 'node',
-//      'type' => 'entity_reference_revisions',
-//      'cardinality' => '-1',
-//      'settings' => [
-//        'target_type' => 'paragraph',
-//      ],
-//    ]);
-//    $field_storage->save();
-//    $field = FieldConfig::create([
-//      'field_storage' => $field_storage,
-//      'bundle' => 'article',
-//    ]);
-//    $field->save();
-//
-//    // Create a paragraph.
-//    $paragraph1 = Paragraph::create([
-//      'title' => 'Paragraph',
-//      'type' => 'test_text',
-//      'text' => 'Test 1',
-//    ]);
-//    $paragraph1->save();
-//    // Create another paragraph.
-//    $paragraph2 = Paragraph::create([
-//      'title' => 'Paragraph',
-//      'type' => 'test_text',
-//      'text' => 'Test 1',
-//    ]);
-//    $paragraph2->save();
-//    // Create another paragraph.
-//    $paragraph3 = Paragraph::create([
-//      'title' => 'Paragraph',
-//      'type' => 'test_text',
-//      'text' => 'Test 1',
-//    ]);
-//    $paragraph3->save();
-//
-//    // Create a node with three paragraphs.
-//    $node = Node::create([
-//      'title' => $this->randomMachineName(),
-//      'type' => 'article',
-//      'node_paragraph_field' => [
-//        $paragraph1,
-//        $paragraph2,
-//        $paragraph3,
-//      ],
-//    ]);
-//    $node->save();
-//
-//    // Edit a paragraph and check
-//    /** @var \Drupal\node\Entity\Node $node_revision1 */
-//    $node_revision1 = Node::load($node->id());
-//    $node_revision1->setTitle("Changing node title");
-//    $node_revision1->setNewRevision(FALSE);
-//    $node_revision1->save();
-//
-//    $this->assertEquals($node_revision1->getRevisionId(), $node->getRevisionId());
-//
-//    // Assert no new paragraph revisions are created
-//    $paragraph1_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph1->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(1, $paragraph1_revisions_count);
-//
-//    $paragraph2_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph2->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(1, $paragraph2_revisions_count);
-//
-//    $paragraph3_revisions_count = \Drupal::entityQuery('paragraph')
-//      ->condition('uuid', $paragraph3->uuid())
-//      ->allRevisions()
-//      ->count()
-//      ->accessCheck(TRUE)
-//      ->execute();
-//    $this->assertEquals(1, $paragraph3_revisions_count);
-//
-//  }
 }
 
